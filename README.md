@@ -1,1 +1,1 @@
-# harmlesspact.github.io
+# HarmlessPact.github.io
