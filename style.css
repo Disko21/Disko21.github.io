@@ -1,0 +1,8 @@
+@media only screen and (max-width: 600px) {
+    input {
+        margin: 7px 7px 2px 4px;
+    }
+    label {
+        margin: 7px 7px 2px 4px;
+    }
+}
