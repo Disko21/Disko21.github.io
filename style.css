@@ -1,8 +1,22 @@
-@media only screen and (max-width: 600px) {
-    input {
-        margin: 24px 7px 2px 4px;
+input:not(:first-child) {
+    margin-top: 12px;
+}
+
+label:not(:first-child) {
+    margin-top: 12px;
+}
+
+@media only screen and (max-width: 1200px) {
+    input:not(:first-child) {
+        margin-top: 24px;
     }
-    label {
-        margin: 7px 7px 2px 4px;
+
+    input{
+       width: 16px;
+       height: 16px;
+    }
+
+    label:not(:first-child) {
+        margin-top: 12px;
     }
 }
