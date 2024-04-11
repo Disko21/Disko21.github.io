@@ -6,14 +6,39 @@ label:not(:first-child) {
     margin-top: 12px;
 }
 
+.container {
+    width: 50%;
+    display: inline-block;
+}
+
+legend {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: -0.7em;
+}
+
+#upper-div {
+    display: flex;
+}
+
+#downer-div {
+    display: grid;
+}
+
+#down-div {
+    margin: auto;
+    width: 70%;
+    padding-top: 20px;
+}
+
 @media only screen and (max-width: 1200px) {
     input:not(:first-child) {
         margin-top: 24px;
     }
 
-    input{
-       width: 16px;
-       height: 16px;
+    input {
+        width: 16px;
+        height: 16px;
     }
 
     label:not(:first-child) {
