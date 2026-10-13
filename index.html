@@ -1,61 +1,391 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Peter's To Do List which makes him better programmer and best daily people" />
-        <link rel="stylesheet" href="style.css">
-        <title>To Do List</title>
-    </head>
-    <body>
-        <main>
-            <div id="upper-div">
-                <div id="left-div" name="left-box" class="container">
-                    <fieldset>
-                        <legend>Must to do list</legend>
-                        <input type="checkbox" name="breakfast" id="breakfast" /><label for="breakfast"> Healthy Breakfast</label><br />
-                        <input type="checkbox" name="ebay" id="ebay" /><label for="ebay"> Ebay (1 hour)</label><br />
-                        <input type="checkbox" name="exercise" id="exercise" /><label for="exercise"> Exercise (20 minutes)</label><br />
-                        <input type="checkbox" name="programming" id="programming" /><label for="programming"> Programming/Game development (1 hour)</label><br />
-                        <input type="checkbox" name="learning" id="learning" /><label for="learning"> Learning/Educational content (20 minutes)</label><br />
-                        <input type="checkbox" name="investing" id="investing" /><label for="investing"> Investing (20 minutes)</label><br />
-                        <input type="checkbox" name="socialize" id="socialize" /><label for="socialize"> Socialize/Post on skool</label><br />
-                        <input type="checkbox" name="chess-and-typeracer" id="educational-gaming" /><label for="educational-gaming"> Chess + Typeracer (10 minutes on each)</label><br />
-                        <input type="checkbox" name="duolingo" id="duolingo" /><label for="duolingo">Duolingo</label><br />
-                        <input type="checkbox" name="daily-byte" id="daily-byte" /><label for="daily-byte">Daily Byte</label><br />
-                        <input type="checkbox" name="daily-dev" id="daily-dev" /><label for="daily-dev">Daily Dev</label>
-                        <input type="checkbox" name="daily-dev" id="daily-dev" /><label for="daily-dev">Daily Dev2</label>
-                    </fieldset>
+<html lang="pl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Tracker & Timeline</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-full flex flex-col antialiased">
+
+    <header class="bg-indigo-600 text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-700 p-3 rounded-xl shadow-inner">
+                    <i class="fa-solid fa-timeline text-2xl"></i>
                 </div>
-                <div id="right-div" name="right-box" class="container">
-                    <fieldset>
-                        <legend>Great to do list</legend>
-                        <input type="checkbox" name="breakfast" id="breakfast" /><label for="breakfast"> Healthy Breakfast</label><br />
-                        <input type="checkbox" name="ebay" id="ebay" /><label for="ebay"> Ebay (1 hour)</label><br />
-                        <input type="checkbox" name="exercise" id="exercise" /><label for="exercise"> Exercise (20 minutes)</label><br />
-                        <input type="checkbox" name="programming" id="programming" /><label for="programming"> Programming/Game development (1 hour)</label><br />
-                        <input type="checkbox" name="learning" id="learning" /><label for="learning"> Learning/Educational content (20 minutes)</label><br />
-                        <input type="checkbox" name="investing" id="investing" /><label for="investing"> Investing (20 minutes)</label><br />
-                        <input type="checkbox" name="socialize" id="socialize" /><label for="socialize"> Socialize/Post on skool</label><br />
-                        <input type="checkbox" name="chess-and-typeracer" id="educational-gaming" /><label for="educational-gaming"> Chess + Typeracer (10 minutes on each)</label><br />
-                    </fieldset>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight">Tracker Aktywności</h1>
+                    <p class="text-indigo-200 text-sm">Śledź swoje osiągnięcia, wydarzenia i historię</p>
                 </div>
             </div>
-                <div id="downer-div">
-                    <div id="down-div" name="down-box" class="container">
-                        <fieldset>
-                            <legend>Nice to do list</legend>
-                            <input type="checkbox" name="breakfast" id="breakfast" /><label for="breakfast"> Healthy Breakfast</label><br />
-                            <input type="checkbox" name="ebay" id="ebay" /><label for="ebay"> Ebay (1 hour)</label><br />
-                            <input type="checkbox" name="exercise" id="exercise" /><label for="exercise"> Exercise (20 minutes)</label><br />
-                            <input type="checkbox" name="programming" id="programming" /><label for="programming"> Programming/Game development (1 hour)</label><br />
-                            <input type="checkbox" name="learning" id="learning" /><label for="learning"> Learning/Educational content (20 minutes)</label><br />
-                            <input type="checkbox" name="investing" id="investing" /><label for="investing"> Investing (20 minutes)</label><br />
-                            <input type="checkbox" name="socialize" id="socialize" /><label for="socialize"> Socialize/Post on skool</label><br />
-                            <input type="checkbox" name="chess-and-typeracer" id="educational-gaming" /><label for="educational-gaming"> Chess + Typeracer (10 minutes on each)</label><br />
-                        </fieldset>
+            <button onclick="openModal()" class="bg-white text-indigo-600 hover:bg-indigo-50 font-semibold px-5 py-2.5 rounded-xl shadow transition duration-200 flex items-center space-x-2 text-sm">
+                <i class="fa-solid fa-plus"></i>
+                <span>Dodaj Wydarzenie</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 flex flex-col gap-6">
+        
+        <!-- Controls: Search, Filter, Sort -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="relative w-full md:w-72">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fa-solid fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" oninput="filterEvents()" placeholder="Szukaj w tytule lub opisie..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <div class="flex items-center space-x-2 text-sm text-slate-600">
+                    <label for="categoryFilter"><i class="fa-solid fa-filter mr-1"></i> Kategoria:</label>
+                    <select id="categoryFilter" onchange="filterEvents()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="all">Wszystkie</option>
+                        <option value="Praca">Praca</option>
+                        <option value="Zdrowie">Zdrowie</option>
+                        <option value="Edukacja">Edukacja</option>
+                        <option value="Osobiste">Osobiste</option>
+                        <option value="Inne">Inne</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center space-x-2 text-sm text-slate-600">
+                    <label for="sortOrder"><i class="fa-solid fa-arrow-sort mr-1"></i> Sortuj:</label>
+                    <select id="sortOrder" onchange="filterEvents()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="newest">Najnowsze pierwsze</option>
+                        <option value="oldest">Najstarsze pierwsze</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative flex-grow">
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden flex flex-col items-center justify-center py-16 text-center">
+                <div class="bg-indigo-50 text-indigo-400 p-4 rounded-full text-4xl mb-4">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-700">Brak aktywności</h3>
+                <p class="text-slate-500 text-sm max-w-sm mt-1">Nie znaleziono żadnych wydarzeń spełniających kryteria lub lista jest pusta. Dodaj pierwsze wydarzenie!</p>
+            </div>
+
+            <!-- Timeline List -->
+            <div id="timelineContainer" class="relative border-l-2 border-indigo-100 ml-4 md:ml-32 space-y-8 py-4">
+                <!-- Dynamic Content injected via JS -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-4 text-center text-xs text-slate-400">
+        <p>Tracker Aktywności &bull; Dane przechowywane lokalnie w przeglądarce</p>
+    </footer>
+
+    <div id="eventModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-xl max-w-md w-full p-6 transform transition-all scale-95 opacity-0 duration-200" id="modalCard">
+            <div class="flex justify-between items-center mb-5">
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-800">Nowe Wydarzenie</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 rounded-lg p-1.5 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="eventForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <input type="hidden" id="eventId">
+                
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Tytuł</label>
+                    <input type="text" id="eventTitle" required placeholder="np. Ukończenie projektu" 
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Data</label>
+                        <input type="date" id="eventDate" required 
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Kategoria</label>
+                        <select id="eventCategory" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition">
+                            <option value="Praca">Praca</option>
+                            <option value="Zdrowie">Zdrowie</option>
+                            <option value="Edukacja">Edukacja</option>
+                            <option value="Osobiste">Osobiste</option>
+                            <option value="Inne">Inne</option>
+                        </select>
                     </div>
                 </div>
-        </main>
-    </body>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">Opis</label>
+                    <textarea id="eventDescription" rows="3" placeholder="Szczegóły aktywności..." 
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-3">
+                    <button type="button" onclick="closeModal()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-medium text-sm transition">Anuluj</button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm shadow transition">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 text-sm flex items-center space-x-2">
+        <i id="toastIcon" class="fa-solid fa-check-circle text-emerald-400"></i>
+        <span id="toastMessage">Operacja zakończona sukcesem!</span>
+    </div>
+
+    <script>
+        // Initial sample data if storage is empty
+        const defaultEvents = [
+            {
+                id: '1',
+                title: 'Rozpoczęcie nauki programowania',
+                date: '2026-03-01',
+                category: 'Edukacja',
+                description: 'Pierwsze kroki w HTML, CSS oraz JavaScript. Konfiguracja środowiska.'
+            },
+            {
+                id: '2',
+                title: 'Wizyta lekarska i badania',
+                date: '2026-03-10',
+                category: 'Zdrowie',
+                description: 'Rutynowe badania kontrolne krwi, wszystko w normie.'
+            },
+            {
+                id: '3',
+                title: 'Wdrożenie nowego projektu',
+                date: '2026-03-20',
+                category: 'Praca',
+                description: 'Pomyślne wdrożenie aplikacji dla klienta na środowisko produkcyjne.'
+            }
+        ];
+
+        let events = JSON.parse(localStorage.getItem('activity_tracker_events')) || defaultEvents;
+
+        function saveEvents() {
+            localStorage.setItem('activity_tracker_events', JSON.stringify(events));
+        }
+
+        // Initialize date input to today by default
+        document.getElementById('eventDate').valueAsDate = new Date();
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.textContent = message;
+            if(isError) {
+                toastIcon.className = 'fa-solid fa-circle-exclamation text-rose-400';
+            } else {
+                toastIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function openModal(editId = null) {
+            const modal = document.getElementById('eventModal');
+            const modalCard = document.getElementById('modalCard');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('eventForm');
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalCard.classList.remove('scale-95', 'opacity-0');
+                modalCard.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            if (editId) {
+                modalTitle.textContent = 'Edytuj Wydarzenie';
+                const event = events.find(e => e.id === editId);
+                if (event) {
+                    document.getElementById('eventId').value = event.id;
+                    document.getElementById('eventTitle').value = event.title;
+                    document.getElementById('eventDate').value = event.date;
+                    document.getElementById('eventCategory').value = event.category;
+                    document.getElementById('eventDescription').value = event.description;
+                }
+            } else {
+                modalTitle.textContent = 'Nowe Wydarzenie';
+                form.reset();
+                document.getElementById('eventId').value = '';
+                document.getElementById('eventDate').valueAsDate = new Date();
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('eventModal');
+            const modalCard = document.getElementById('modalCard');
+            
+            modalCard.classList.remove('scale-100', 'opacity-100');
+            modalCard.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('eventId').value;
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const category = document.getElementById('eventCategory').value;
+            const description = document.getElementById('eventDescription').value;
+
+            if (id) {
+                // Update existing
+                events = events.map(ev => ev.id === id ? { id, title, date, category, description } : ev);
+                showToast('Wydarzenie zostało zaktualizowane.');
+            } else {
+                // Create new
+                const newEvent = {
+                    id: Date.now().toString(),
+                    title,
+                    date,
+                    category,
+                    description
+                };
+                events.push(newEvent);
+                showToast('Dodano nowe wydarzenie.');
+            }
+
+            saveEvents();
+            closeModal();
+            filterEvents();
+        }
+
+        function deleteEvent(id) {
+            if (confirm('Czy na pewno chcesz usunąć to wydarzenie?')) {
+                events = events.filter(ev => ev.id !== id);
+                saveEvents();
+                filterEvents();
+                showToast('Wydarzenie zostało usunięte.');
+            }
+        }
+
+        function getCategoryBadge(category) {
+            const colors = {
+                'Praca': 'bg-blue-100 text-blue-700 border-blue-200',
+                'Zdrowie': 'bg-emerald-100 text-emerald-700 border-emerald-200',
+                'Edukacja': 'bg-amber-100 text-amber-700 border-amber-200',
+                'Osobiste': 'bg-purple-100 text-purple-700 border-purple-200',
+                'Inne': 'bg-slate-100 text-slate-700 border-slate-200'
+            };
+            return colors[category] || colors['Inne'];
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            try {
+                return new Date(dateString).toLocaleDateString('pl-PL', options);
+            } catch (e) {
+                return dateString;
+            }
+        }
+
+        function filterEvents() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedCategory = document.getElementById('categoryFilter').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+
+            let filtered = events.filter(ev => {
+                const matchesSearch = ev.title.toLowerCase().includes(searchTerm) || ev.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategory === 'all' || ev.category === selectedCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            // Sort events
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+
+            renderEvents(filtered);
+        }
+
+        function renderEvents(items) {
+            const container = document.getElementById('timelineContainer');
+            const emptyState = document.getElementById('emptyState');
+
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            items.forEach(ev => {
+                const badgeStyle = getCategoryBadge(ev.category);
+                const formattedDate = formatDate(ev.date);
+
+                const itemHTML = `
+                    <div class="relative pl-6 md:pl-8 group">
+                        <!-- Timeline bullet point marker -->
+                        <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow transition-transform group-hover:scale-125"></div>
+                        
+                        <!-- Date badge for desktop screen sizes -->
+                        <div class="hidden md:block absolute -left-36 top-1 text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100 text-right w-28 shadow-xs">
+                            ${formattedDate}
+                        </div>
+
+                        <!-- Card box -->
+                        <div class="bg-white p-5 rounded-2xl shadow-xs border border-slate-100 hover:shadow-md transition duration-200">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="md:hidden text-xs font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100">
+                                        ${formattedDate}
+                                    </span>
+                                    <h4 class="font-bold text-slate-800 text-base">${escapeHtml(ev.title)}</h4>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-xs font-medium px-2.5 py-1 rounded-full border ${badgeStyle}">
+                                        ${escapeHtml(ev.category)}
+                                    </span>
+                                    <div class="flex items-center space-x-1 border-l pl-2 border-slate-100">
+                                        <button onclick="openModal('${ev.id}')" title="Edytuj" class="text-slate-400 hover:text-indigo-600 p-1 rounded-lg hover:bg-slate-50 transition">
+                                            <i class="fa-solid fa-pen-to-square text-sm"></i>
+                                        </button>
+                                        <button onclick="deleteEvent('${ev.id}')" title="Usuń" class="text-slate-400 hover:text-rose-600 p-1 rounded-lg hover:bg-slate-50 transition">
+                                            <i class="fa-solid fa-trash-can text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-slate-600 text-sm whitespace-pre-wrap mt-2 leading-relaxed">${escapeHtml(ev.description || 'Brak opisu.')}</p>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', itemHTML);
+            });
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Initial render on page load
+        filterEvents();
+    </script>
+</body>
 </html>
